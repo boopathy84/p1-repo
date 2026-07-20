@@ -11,3 +11,6 @@ b=2
 print(a*b)
 
 
+a=7
+b=8
+print(a/b)
