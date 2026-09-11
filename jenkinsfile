@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'nginix',
+                    url: 'https://github.com/satheesh1227/examble-repo.git'
+            }
+        }
+
+        stage('Check Files') {
+    steps {
+        sh '''
+            pwd
+            ls -la
+            find . -maxdepth 2 -name Dockerfile -print
+        '''
+    }
+}
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'sudo docker build -t myflaskimage:latest .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    sudo docker stop flaskapp || true
+                    sudo docker rm flaskapp || true
+                    sudo docker run -d --name flaskapp -p 5002:5002 myflaskimage:latest
+                '''
+            }
+        }
+    }
+}
