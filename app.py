@@ -1,16 +1,10 @@
-a=5
-b=4
-print(a+b)
+from flask import Flask, render_template
 
-a=5
-b=4
-print(a-b)
+app = Flask(__name__)
 
-a=4
-b=2
-print(a*b)
+@app.route("/")
+def home():
+    return render_template("index.html")
 
-
-a=7
-b=8
-print(a/b)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
